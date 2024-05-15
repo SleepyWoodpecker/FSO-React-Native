@@ -1,4 +1,5 @@
 import { Image, Text, View, StyleSheet } from "react-native";
+import theme from "../theme";
 
 const styles = StyleSheet.create({
   image: {
@@ -44,6 +45,9 @@ const styles = StyleSheet.create({
     padding: 5,
     alignSelf: "start",
   },
+  textStyle: {
+    fontFamily: theme.fonts.platform,
+  },
 });
 
 const StatsItem = ({ statName, stat }) => {
@@ -69,7 +73,7 @@ const RepositoryListItem = ({ item }) => {
     ownerAvatarUrl,
   } = item.item;
 
-  // console.log(ownerAvatarUrl);
+  console.log(theme.fonts.platform);
 
   return (
     <View style={styles.mainContainer}>
@@ -83,7 +87,9 @@ const RepositoryListItem = ({ item }) => {
           <Text style={{ width: 300 }}>{description}</Text>
 
           <View style={styles.languageBox}>
-            <Text style={styles.languageText}>{language}</Text>
+            <Text style={[styles.languageText, styles.textStyle]}>
+              {language}
+            </Text>
           </View>
         </View>
       </View>
