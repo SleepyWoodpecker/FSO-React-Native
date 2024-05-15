@@ -36,11 +36,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   languageText: {
-    backgroundColor: "#0066ff",
     color: "#FFFFFF",
-    alignSelf: "flex-start",
+  },
+  languageBox: {
+    backgroundColor: "#0366d6",
+    borderRadius: 5,
     padding: 5,
-    borderRadius: 2,
+    alignSelf: "start",
   },
 });
 
@@ -78,9 +80,11 @@ const RepositoryListItem = ({ item }) => {
           <Text style={styles.boldText}>{fullName}</Text>
 
           {/* not sure why, but I cannot get the text to wrap */}
-          <Text numberOfLines={5}>description: {description}</Text>
+          <Text style={{ width: 300 }}>{description}</Text>
 
-          <Text style={styles.languageText}>{language}</Text>
+          <View style={styles.languageBox}>
+            <Text style={styles.languageText}>{language}</Text>
+          </View>
         </View>
       </View>
 
