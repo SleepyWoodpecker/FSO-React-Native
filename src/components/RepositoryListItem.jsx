@@ -73,8 +73,6 @@ const RepositoryListItem = ({ item }) => {
     ownerAvatarUrl,
   } = item.item;
 
-  console.log(theme.fonts.platform);
-
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
