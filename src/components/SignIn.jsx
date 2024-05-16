@@ -1,6 +1,10 @@
 import { View, TextInput, Pressable, Text, StyleSheet } from "react-native";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import useAuthentication from "../hooks/useAuthentication";
+import useAuthenticationStorage from "../hooks/useAuthenticationStorage";
+import { useApolloClient } from "@apollo/client";
+import { useNavigate } from "react-router-native";
 
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -27,16 +31,38 @@ const styles = StyleSheet.create({
 });
 
 const SignIn = () => {
+  const authStorage = useAuthenticationStorage();
+  const [authenticateUser] = useAuthentication();
+  const apolloClient = useApolloClient();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    const authenticationResult = await authenticateUser(values);
+
+    if (authenticationResult.data) {
+      await authStorage.setAccessToken(
+        authenticationResult.data.authenticate.accessToken
+      );
+      navigate("/");
+      apolloClient.resetStore();
+    } else {
+      console.log(
+        "there was a problem logging in...",
+        authenticationResult.error
+      );
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
-    onSubmit: (values) => console.log(values),
+    onSubmit: async (values) => {
+      await handleSubmit(values);
+    },
     validationSchema,
   });
-
-  console.log(formik.touched, formik.errors);
 
   return (
     <View style={styles.container}>

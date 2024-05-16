@@ -2,6 +2,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import theme from "../theme";
 import AppBarTab from "./AppBarTab";
+import useSignInStatus from "../hooks/useSignInStatus";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,11 +19,19 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const signInStatus = useSignInStatus();
+
+  console.log(signInStatus.data);
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab tabName={"Rate Repository Application"} link="/"></AppBarTab>
-        <AppBarTab tabName={"Sign In"} link="sign-in"></AppBarTab>
+        {signInStatus?.data?.me ? (
+          <AppBarTab tabName={"Sign Out"} link="sign-out"></AppBarTab>
+        ) : (
+          <AppBarTab tabName={"Sign In"} link="sign-in"></AppBarTab>
+        )}
       </ScrollView>
     </View>
   );
