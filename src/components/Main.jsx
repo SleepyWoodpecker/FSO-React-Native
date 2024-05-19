@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import RepositoryList from "./RepositoryList";
+import RepositoryListContainer from "./RepositoryListContainer";
 import AppBar from "./AppBar";
 import SignIn from "./SignIn";
 import SignOut from "./SignOut";
@@ -17,7 +17,7 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <Routes>
-        <Route path="/" element={<RepositoryList />}></Route>
+        <Route path="/" element={<RepositoryListContainer />}></Route>
         <Route path="*" element={<Navigate to="/" replace />}></Route>
         <Route path="/sign-in" element={<SignIn />}></Route>
         <Route path="/sign-out" element={<SignOut />}></Route>
