@@ -34,9 +34,6 @@ const formatter = new Intl.DateTimeFormat("en-GB", {
 const ReviewDisplayItem = ({ reviewItem }) => {
   const reviewData = reviewItem.node;
 
-  console.log(reviewData.user);
-  console.log(reviewData);
-
   const dateObj = new Date(reviewData.createdAt);
 
   return (

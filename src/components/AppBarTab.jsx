@@ -4,6 +4,7 @@ import { Link } from "react-router-native";
 const styles = StyleSheet.create({
   tabText: {
     color: "#FFFFFF",
+    fontWeight: "bold",
   },
   linkTabStyle: {
     paddingHorizontal: 8,
