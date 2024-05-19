@@ -1,5 +1,6 @@
-import { Image, Text, View, StyleSheet } from "react-native";
+import { Image, Text, View, StyleSheet, Pressable } from "react-native";
 import theme from "../theme";
+import * as Linking from "expo-linking";
 
 const styles = StyleSheet.create({
   image: {
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
   },
   languageText: {
     color: "#FFFFFF",
+    fontWeight: "bold",
   },
   languageBox: {
     backgroundColor: "#0366d6",
@@ -47,6 +49,16 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: theme.fonts.platform,
+  },
+  githubLinkButton: {
+    backgroundColor: "#0366d6",
+    borderRadius: 5,
+    padding: 5,
+    height: 40,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
@@ -71,7 +83,16 @@ const RepositoryListItem = ({ item }) => {
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
+    url,
   } = item.item;
+
+  const handleRedirectLink = () => {
+    if (Linking.canOpenURL(url)) {
+      Linking.openURL(url);
+    } else {
+      console.log(`${url} cannot be opened.`);
+    }
+  };
 
   return (
     <View style={styles.mainContainer} testID="repositoryListItem">
@@ -98,6 +119,14 @@ const RepositoryListItem = ({ item }) => {
         <StatsItem statName={"Reviews"} stat={reviewCount} />
         <StatsItem statName={"Rating"} stat={ratingAverage} />
       </View>
+
+      {url && (
+        <Pressable onPress={handleRedirectLink} style={styles.githubLinkButton}>
+          <Text style={[styles.languageText, styles.textStyle]}>
+            Open in GitHub
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
