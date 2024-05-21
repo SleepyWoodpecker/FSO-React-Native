@@ -1,6 +1,8 @@
-import { View, TextInput, Pressable, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import TextInputField from "./TextInputField";
+import FormButton from "./FormButton";
 
 const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required"),
@@ -10,19 +12,6 @@ const validationSchema = yup.object().shape({
 const styles = StyleSheet.create({
   container: {
     margin: 7,
-  },
-  textInput: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginVertical: 5,
-  },
-  signInButton: {
-    backgroundColor: "#0366d6",
-    textAlign: "center",
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 10,
   },
 });
 
@@ -40,34 +29,27 @@ const SignIn = ({ handleSubmit }) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <TextInputField
         value={formik.values.username}
         placeholder="Username"
         onChangeText={formik.handleChange("username")}
-        style={styles.textInput}
         onBlur={formik.handleBlur("username")}
-      ></TextInput>
+      />
       {formik.touched.username && formik.errors.username && (
         <Text style={{ color: "red" }}>{formik.errors.username}</Text>
       )}
-      <TextInput
+      <TextInputField
         value={formik.values.password}
         secureTextEntry
         placeholder="Password"
         onChangeText={formik.handleChange("password")}
         style={styles.textInput}
         onBlur={formik.handleBlur("password")}
-      ></TextInput>
+      />
       {formik.touched.password && formik.errors.password && (
         <Text style={{ color: "red" }}>{formik.errors.password}</Text>
       )}
-      <Pressable
-        onPress={formik.handleSubmit}
-        style={styles.signInButton}
-        role="signInButton"
-      >
-        <Text style={{ color: "#FFFFFF", alignSelf: "center" }}>Sign In</Text>
-      </Pressable>
+      <FormButton onPress={formik.handleSubmit} buttonText={"Sign In"} />
     </View>
   );
 };

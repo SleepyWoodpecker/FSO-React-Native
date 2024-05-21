@@ -1,16 +1,23 @@
 import { gql } from "@apollo/client";
 
 export const MY_QUERY = gql`
-  query Query {
-    repositories {
+  query Repositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+    ) {
       edges {
-        cursor
         node {
           fullName
-          id
           createdAt
           description
           forksCount
+          id
           language
           name
           openIssuesCount
@@ -18,9 +25,25 @@ export const MY_QUERY = gql`
           ownerName
           ratingAverage
           reviewCount
+          reviews {
+            edges {
+              node {
+                createdAt
+                id
+                rating
+                repositoryId
+                text
+                user {
+                  id
+                  reviewCount
+                  username
+                }
+                userId
+              }
+            }
+          }
           stargazersCount
           url
-          userHasReviewed
           watchersCount
         }
       }
@@ -29,27 +52,47 @@ export const MY_QUERY = gql`
 `;
 
 export const ME = gql`
-  query Query {
+  query Reviews($includeReviews: Boolean = false) {
     me {
+      reviews @include(if: $includeReviews) {
+        edges {
+          cursor
+          node {
+            createdAt
+            id
+            rating
+            repositoryId
+            text
+            user {
+              createdAt
+              id
+              reviewCount
+              username
+            }
+            userId
+          }
+        }
+      }
       id
+      reviewCount
       username
     }
   }
 `;
 
 export const GET_SINGLE_REPO = gql`
-  query ($repositoryId: ID!) {
+  query Query($repositoryId: ID!) {
     repository(id: $repositoryId) {
-      id
-      url
-      fullName
+      createdAt
       description
-      language
       forksCount
-      stargazersCount
-      ratingAverage
-      reviewCount
+      fullName
+      id
+      language
+      name
       ownerAvatarUrl
+      ownerName
+      reviewCount
       reviews {
         edges {
           node {
@@ -80,13 +123,34 @@ export const GET_SINGLE_REPO = gql`
               }
               reviewCount
             }
+            repository {
+              id
+              ownerName
+              name
+              createdAt
+              fullName
+              ratingAverage
+              reviewCount
+              stargazersCount
+              watchersCount
+              forksCount
+              openIssuesCount
+              url
+              ownerAvatarUrl
+              description
+              language
+              userHasReviewed
+            }
             userId
+            repositoryId
             rating
             createdAt
             text
           }
         }
       }
+      stargazersCount
+      url
     }
   }
 `;

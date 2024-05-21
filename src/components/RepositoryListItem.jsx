@@ -84,6 +84,7 @@ const RepositoryListItem = ({ item }) => {
     reviewCount,
     ownerAvatarUrl,
     url,
+    showUrl,
   } = item.item;
 
   const handleRedirectLink = () => {
@@ -120,7 +121,7 @@ const RepositoryListItem = ({ item }) => {
         <StatsItem statName={"Rating"} stat={ratingAverage} />
       </View>
 
-      {url && (
+      {showUrl && (
         <Pressable onPress={handleRedirectLink} style={styles.githubLinkButton}>
           <Text style={[styles.languageText, styles.textStyle]}>
             Open in GitHub

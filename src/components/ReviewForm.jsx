@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
-import { Text, View, TextInput, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet } from "react-native";
 import * as yup from "yup";
 import useCreateReview from "../hooks/useCreateReview";
 import { useNavigate } from "react-router-native";
+import TextInputField from "./TextInputField";
+import FormButton from "./FormButton";
 
 const schema = yup.object().shape({
   repositoryOwner: yup.string().required("Repo owner's name is required"),
@@ -16,12 +18,6 @@ const schema = yup.object().shape({
 });
 
 const styles = StyleSheet.create({
-  textInput: {
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginVertical: 10,
-  },
   container: {
     margin: 7,
   },
@@ -69,50 +65,45 @@ const ReviewForm = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
+      <TextInputField
         value={formik.values.repositoryOwner}
         placeholder="Repository Owner Name"
         style={[styles.textInput]}
         onChangeText={formik.handleChange("repositoryOwner")}
         onBlur={formik.handleBlur("repositoryOwner")}
-      ></TextInput>
-      {formik.touched.repositoryOwner && formik.errors.repositoryOwner && (
-        <Text style={{ color: "red" }}>{formik.errors.repositoryOwner}</Text>
-      )}
-      <TextInput
+        errorFields={
+          formik.touched.repositoryOwner && formik.errors.repositoryOwner
+        }
+        errorMessage={formik.errors.repositoryOwner}
+      />
+      <TextInputField
         value={formik.values.repositoryName}
         placeholder="Repository Name"
         style={styles.textInput}
         onChangeText={formik.handleChange("repositoryName")}
         onBlur={formik.handleBlur("repositoryName")}
-      ></TextInput>
-      {formik.touched.repositoryName && formik.errors.repositoryName && (
-        <Text style={{ color: "red" }}>{formik.errors.repositoryName}</Text>
-      )}
-      <TextInput
+        errorFields={
+          formik.touched.repositoryName && formik.errors.repositoryName
+        }
+        errorMessage={formik.errors.repositoryName}
+      />
+      <TextInputField
         value={formik.values.rating}
         placeholder="Rating between 0 and 100"
         style={styles.textInput}
         onChangeText={formik.handleChange("rating")}
         onBlur={formik.handleBlur("rating")}
-      ></TextInput>
-      {formik.touched.rating && formik.errors.rating && (
-        <Text style={{ color: "red" }}>{formik.errors.rating}</Text>
-      )}
-      <TextInput
+        errorFields={formik.touched.rating && formik.errors.rating}
+        errorMessage={formik.errors.rating}
+      />
+      <TextInputField
         value={formik.values.review}
         placeholder="Review"
         style={styles.textInput}
         onChangeText={formik.handleChange("review")}
         onBlur={formik.handleBlur("review")}
-      ></TextInput>
-      <Pressable onPress={formik.handleSubmit} style={styles.reviewButton}>
-        <Text
-          style={{ color: "#FFFFFF", alignSelf: "center", fontWeight: "bold" }}
-        >
-          Create
-        </Text>
-      </Pressable>
+      />
+      <FormButton onPress={formik.submit} buttonText={"Create"} />
     </View>
   );
 };

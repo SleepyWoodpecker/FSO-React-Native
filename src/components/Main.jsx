@@ -6,6 +6,8 @@ import ReviewForm from "./ReviewForm";
 import SingleRepositoryView from "./SingleRepositoryView";
 import { Route, Routes, Navigate } from "react-router-native";
 import SignInContainer from "./SignInContainer";
+import SignUp from "./SignUp";
+import UserReviewsList from "./UserReviews";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +23,8 @@ const Main = () => {
       <Routes>
         <Route
           path="/"
-          element={<Navigate to="/repositories/jaredpalmer.formik" replace />}
+          // element={<Navigate to="/repositories/jaredpalmer.formik" replace />}
+          element={<RepositoryListContainer />}
         ></Route>
         <Route
           path="/repositories/:id"
@@ -31,6 +34,8 @@ const Main = () => {
         <Route path="/sign-in" element={<SignInContainer />}></Route>
         <Route path="/sign-out" element={<SignOut />}></Route>
         <Route path="/create-review" element={<ReviewForm />}></Route>
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/my-reviews" element={<UserReviewsList />} />
       </Routes>
     </View>
   );

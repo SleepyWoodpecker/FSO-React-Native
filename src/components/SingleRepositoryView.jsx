@@ -15,7 +15,7 @@ const SingleRepositoryView = () => {
       <FlatList
         ListHeaderComponent={() => (
           <RepositoryListItem
-            item={{ item: { ...data.repository, showGithubLinkButton: true } }}
+            item={{ item: { ...data.repository, showUrl: true } }}
           />
         )}
         data={data.repository.reviews.edges}

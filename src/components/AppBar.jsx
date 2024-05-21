@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.primary,
     paddingBottom: 10,
-    marginBottom: 10,
+    // marginBottom: 10,
     padding: 20,
     // display: "flex",
     // flexDirection: "row",
@@ -21,14 +21,18 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   const signInStatus = useSignInStatus();
 
-  console.log(signInStatus.data);
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
-        <AppBarTab tabName={"Rate Repository Application"} link="/"></AppBarTab>
+        <AppBarTab tabName={"Repositories"} link="/"></AppBarTab>
         {signInStatus?.data?.me && (
           <AppBarTab tabName={"Create Review"} link="create-review"></AppBarTab>
+        )}
+        {!signInStatus?.data?.me && (
+          <AppBarTab tabName={"Sign Up"} link="sign-up" />
+        )}
+        {signInStatus?.data?.me && (
+          <AppBarTab tabName={"My Reviews"} link="my-reviews" />
         )}
         {signInStatus?.data?.me ? (
           <AppBarTab tabName={"Sign Out"} link="sign-out"></AppBarTab>
