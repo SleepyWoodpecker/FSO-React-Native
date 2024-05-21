@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { MY_QUERY } from "../graphql/queries";
 
-const useRepositories = (order, searchKeyword) => {
+const useRepositories = (order, searchKeyword, first = 4, after) => {
   let dropDownSearch;
   if (order == "LOWEST_RATED") {
     dropDownSearch = { orderBy: "RATING_AVERAGE", orderDirection: "ASC" };
@@ -10,15 +10,32 @@ const useRepositories = (order, searchKeyword) => {
   } else if (order == "LATEST") {
     dropDownSearch = { orderBy: "CREATED_AT" };
   }
-  const { data } = useQuery(MY_QUERY, {
+  const { data, fetchMore } = useQuery(MY_QUERY, {
     fetchPolicy: "cache-and-network",
     variables: {
       ...dropDownSearch,
       searchKeyword,
+      first,
+      after,
     },
   });
 
-  return { repositories: data ? data.repositories : null };
+  const getNextPage = (currentPageData) => {
+    if (!currentPageData.hasNextPage) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        ...dropDownSearch,
+        searchKeyword,
+        after: currentPageData.endCursor,
+        first,
+      },
+    });
+  };
+
+  return { repositories: data ? data.repositories : null, getNextPage };
 };
 
 export default useRepositories;

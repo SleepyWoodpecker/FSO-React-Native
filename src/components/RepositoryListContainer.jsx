@@ -10,7 +10,13 @@ const RepositoryListContainer = () => {
     (value) => setSearchFilter(value),
     500
   );
-  const { repositories } = useRepositories(selectedOrder, searchFilter);
+  const { repositories, getNextPage } = useRepositories(
+    selectedOrder,
+    searchFilter
+  );
+  const handleGetNextPage = (pageData) => {
+    getNextPage(pageData);
+  };
 
   return (
     <RepositoryList
@@ -19,6 +25,7 @@ const RepositoryListContainer = () => {
       setSelectedOrder={setSelectedOrder}
       searchFilter={searchFilter}
       setSearchFilter={setSearchFilterDB}
+      getNextPage={handleGetNextPage}
     />
   );
 };

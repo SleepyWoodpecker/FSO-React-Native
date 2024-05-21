@@ -18,10 +18,18 @@ const RepositoryList = ({
   setSelectedOrder,
   setSearchFilter,
   searchFilter,
+  getNextPage,
 }) => {
   const repositoryData = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
+
+  const handleGetNextPage = () => {
+    if (!repositories) {
+      return;
+    }
+    getNextPage(repositories.pageInfo);
+  };
 
   return (
     <FlatList
@@ -41,6 +49,7 @@ const RepositoryList = ({
       ItemSeparatorComponent={ItemSeparator}
       renderItem={(item) => <RepositoryListItem item={item} />}
       keyExtractor={(item) => item.id}
+      onEndReached={handleGetNextPage}
     />
   );
 };
