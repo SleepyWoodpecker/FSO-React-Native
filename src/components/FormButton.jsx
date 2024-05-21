@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const FormButton = ({ onPress, buttonText }) => {
+const FormButton = ({ onPress, buttonText, additionalStyles }) => {
   return (
-    <Pressable onPress={onPress} style={styles.formButton}>
+    <Pressable onPress={onPress} style={[styles.formButton, additionalStyles]}>
       <Text
         style={{ color: "#FFFFFF", alignSelf: "center", fontWeight: "bold" }}
       >

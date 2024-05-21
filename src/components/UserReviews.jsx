@@ -9,8 +9,6 @@ const UserReviewsList = () => {
     return <Text>LOADING...</Text>;
   }
 
-  console.log(userReviews.data.me.reviews.edges[0]);
-
   return (
     <FlatList
       data={userReviews.data.me.reviews.edges}
@@ -18,8 +16,13 @@ const UserReviewsList = () => {
         return item.node.id;
       }}
       renderItem={(item) => {
-        console.log("ITEMMMM", item);
-        return <ReviewDisplayItem reviewItem={item.item} />;
+        return (
+          <ReviewDisplayItem
+            reviewItem={item.item}
+            myReviewsButtons
+            reviewRefresher={userReviews.refetch}
+          />
+        );
       }}
     ></FlatList>
   );

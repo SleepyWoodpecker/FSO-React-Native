@@ -103,7 +103,7 @@ const ReviewForm = () => {
         onChangeText={formik.handleChange("review")}
         onBlur={formik.handleBlur("review")}
       />
-      <FormButton onPress={formik.submit} buttonText={"Create"} />
+      <FormButton onPress={formik.handleSubmit} buttonText={"Create"} />
     </View>
   );
 };
